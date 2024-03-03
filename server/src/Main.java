@@ -1,53 +1,33 @@
-/**
- * Accept connections from client sockets and convert the string to uppercase.
- * 
- * @author Hari krishna
- */
 
- import java.io.IOException;
- import java.io.PrintWriter;
- import java.net.ServerSocket;
- import java.net.Socket;
- import java.util.Scanner;
- 
- public class CustomServer {
- 
-  private int port;
-  private int backlog;
- 
-  public CustomServer(int port, int backlog) {
-   this.port = port;
-   this.backlog = backlog;
-  }
- 
-  public void startServer() {
-   try (ServerSocket serverSocket = new ServerSocket(port, backlog)) {
- 
-    System.out.println("Started Listening for clients");
-    while (true) {
- 
-     // take input and output streams
-     try (Socket client = serverSocket.accept();
-       Scanner scanner = new Scanner(client.getInputStream());
-       PrintWriter pw = new PrintWriter(client.getOutputStream(), true)) {
-      String dataFromClient = scanner.nextLine();
- 
-      String response = getResponse(dataFromClient);
-      pw.write(response);
- 
-     }catch(Exception e){
-      e.printStackTrace();
-     }
- 
-    }
-   } catch (IOException e) {
+public class Main {
+ public static void main(String[] args) {
+  // Crear una lista circular doblemente enlazada
+  ListDoubleO playlist = new ListDoubleO();
 
-    e.printStackTrace();
-   }
-  }
- 
-  private String getResponse(String dataFromClient) {
-   return dataFromClient.toUpperCase();
-  }
- 
+  // Crear y agregar 5 canciones a la lista
+  playlist.addSong(new Song("Canción 1"));
+  playlist.addSong(new Song("Canción 2"));
+  playlist.addSong(new Song("Canción 3"));
+  playlist.addSong(new Song("Canción 4"));
+  playlist.addSong(new Song("Canción 5"));
+
+  // Imprimir la lista de canciones antes de agregar likes
+  System.out.println("Lista de canciones antes de agregar likes:");
+  playlist.printSongs();
+  System.out.println();
+
+  // Agregar likes a cada canción según las especificaciones
+  playlist.getNode(0).data.like(5); // Primera canción tiene 5 likes
+  playlist.getNode(1).data.like(1); // Segunda canción tiene 1 like
+  playlist.getNode(2).data.like(3); // Tercera canción tiene 3 likes
+  playlist.getNode(3).data.like(5); // Cuarta canción tiene 5 likes
+  playlist.getNode(4).data.like(2); // Quinta canción tiene 2 likes
+
+  playlist.autoSort(); // Ordenar inicialmente por la diferencia de likes y dislikes
+
+  // Imprimir la lista de canciones después de agregar likes
+  System.out.println("Lista de canciones después de agregar likes:");
+  playlist.printSongs();
  }
+}
+
