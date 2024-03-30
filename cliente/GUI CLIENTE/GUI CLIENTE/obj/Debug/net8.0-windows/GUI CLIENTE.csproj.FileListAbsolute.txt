@@ -1,0 +1,16 @@
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI_CLIENTE.Form1.resources
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.csproj.GenerateResource.cache
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.AssemblyInfoInputs.cache
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.AssemblyInfo.cs
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.csproj.CoreCompileInputs.cache
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\bin\Debug\net8.0-windows\GUI CLIENTE.exe
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\bin\Debug\net8.0-windows\GUI CLIENTE.deps.json
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\bin\Debug\net8.0-windows\GUI CLIENTE.runtimeconfig.json
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\bin\Debug\net8.0-windows\GUI CLIENTE.dll
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\bin\Debug\net8.0-windows\GUI CLIENTE.pdb
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.dll
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\refint\GUI CLIENTE.dll
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.pdb
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\GUI CLIENTE.genruntimeconfig.cache
+C:\Users\tenci\OneDrive\Escritorio\GUI-CLIENTE\GUI CLIENTE\GUI CLIENTE\obj\Debug\net8.0-windows\ref\GUI CLIENTE.dll
