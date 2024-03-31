@@ -73,9 +73,29 @@ public class ListDoubleO {
         do {
             songNames.add(current.data.getSongName());
             current = current.next;
-        } while (current != tail.next);
+        }
+        while (current != tail.next);
 
         return gson.toJson(songNames);
+    }
+    public void vote(String voto) {
+        int i = 0;
+        if (tail == null) {
+            return;
+        }
+        Node current = tail.next;
+        while (i < size){
+            if (voto.endsWith(tail.data.toString())){
+                if (voto.startsWith("up")){
+                    current.data.like(1);
+                }
+            }
+            else{
+                current = current.next;
+                i += 1;
+            }
+
+        }
     }
 
 }

@@ -18,7 +18,7 @@ public class CustomServer {
                 // Crea un nuevo hilo para manejar la conexión con el cliente
                 Thread thread = new Thread(new ClientHandler(clientSocket));
                 thread.start();
-                Main.showMenu();
+                //Main.showMenu();
             }
         }
         catch (IOException e) {
@@ -44,8 +44,9 @@ public class CustomServer {
                             writer.println(Main.hola());
                             System.out.println("Received from client1234: " + inputLine);
                         }
-                        if (inputLine.equals("up.vote")) {
+                        if (inputLine.startsWith("up.vote")) {
                             System.out.println("Received from client: " + inputLine);
+                            Main.sendvote(inputLine);
                             writer.println("Received: " + inputLine); // Envía una respuesta al cliente
 
 

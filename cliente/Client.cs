@@ -1,16 +1,20 @@
 using System.Text;
 using System.Net.Sockets;
 using IniA;
-using System.Text.Json.Nodes;
-using JsonM;
 using Newtonsoft.Json;
+using votes;
+using loggings;
+using Microsoft.Extensions.Logging;
+
+
+
 
 
 
 namespace Sockets
 {
     public class Poll{
-        
+        private static readonly ILogger<Poll> _logger = Logger.CreateLogger<Poll>();
         public static async Task Request(ClientSocket clientSock, CancellationToken cancellationToken){
             int delay;
             var config = new IniFile("config.ini"); //Variable de ruta archivo configuracion
@@ -30,18 +34,17 @@ namespace Sockets
             catch (OperationCanceledException)
             {
                 // La operación fue cancelada, probablemente porque se solicitó la cancelación
-                Console.WriteLine("Polling operation cancelled.");
+               _logger.LogWarning("Operación de polling cancelada");
+
             }
         }
     }  
 
-    public class ClientSocket
-    {
+    public class ClientSocket{
         private int port;
         private TcpClient client;
         private NetworkStream stream;
-
-
+        private static readonly ILogger<ClientSocket> _logger = Logger.CreateLogger<ClientSocket>();
 
         public ClientSocket(string Address, int port, int sendTimeout, int receiveTimeout)
         {
@@ -60,41 +63,43 @@ namespace Sockets
 
                 byte[] buf = Encoding.UTF8.GetBytes(data + "\n");
 
-                Console.WriteLine("Sending data '{0}' to server", data);
+
+                _logger.LogInformation("Enviando data '{0}' al server", data);
                 
                 stream.Write(buf, 0, buf.Length);
 
+                _logger.LogInformation("Data enviada correctamente.");
+
                 buf = new byte[100];
                 int bytesRead = stream.Read(buf, 0, 100);
-                string a1 = "up.vote";
                 string response = Encoding.UTF8.GetString(buf, 0, bytesRead).Trim();
-                //Console.WriteLine("Received Response: '{0}', of length {1}", response, response.Length);
-                if(response.StartsWith("Received: ") && response.Substring(10).Equals(a1)) {
-                    Console.WriteLine("Received Response: '{0}', of length {1}", response, response.Length);
-                }
-                    
+
+                _logger.LogInformation("Recibida respuesta del server : '{0}'", response);
+                
                 if (response.StartsWith("[")){
+                    _logger.LogInformation("Comenzando conversión de JSON a cola de canciones.");
                     try{
                     Queue<string> result = JsonM.Json.Convert(response);
                         while (result.Count > 0) {
-                            Console.WriteLine(result.Dequeue());
+                            _logger.LogInformation(result.Dequeue());
                         }
+                        _logger.LogInformation("Conversión de JSON a cola de canciones completada con éxito.");
                     }
                     catch(IOException ex){
-                        Console.WriteLine("Error reading from network stream: " + ex.Message);
+                        _logger.LogError("Error reading from network stream: " + ex.Message);
                     }
                 }
 
 
             }
             catch (IOException ex) {
-                Console.WriteLine("Error de E/S: " + ex.Message);
+                _logger.LogError("Error de E/S: " + ex.Message);
             }               
             catch (JsonException ex) {
-                    Console.WriteLine("Error de JSON: " + ex.Message);
+                _logger.LogError("Error de JSON: " + ex.Message);
             }               
             catch (Exception ex) {
-                    Console.WriteLine("Ocurrió un error: " + ex.Message);
+                _logger.LogError("Ocurrió un error: " + ex.Message);
             }
         }
         public async Task SendAsync(string message){
@@ -112,66 +117,66 @@ namespace Sockets
         }
     }
 
-    class Client
-{
+    class Client{
     public static ClientSocket clientSock;
+    public static Vote votes = new Vote();
+    private static readonly ILogger<Client> _logger = Logger.CreateLogger<Client>();
 
-    static async Task Main(string[] args)
-    {
-        try
+
+        static async Task Main(string[] args)
         {
-            string Address;
-            int port;
-            var config = new IniFile("config.ini"); //Variable de ruta archivo configuracion
-            Address = config.Read("Address");
-            port = Convert.ToInt32(config.Read("Port"));
-
-            bool connected = false;
-
-            while (!connected)
+            try
             {
-                try
+                string Address;
+                int port;
+                var config = new IniFile("config.ini"); //Variable de ruta archivo configuracion
+                Address = config.Read("Address");
+                port = Convert.ToInt32(config.Read("Port"));
+
+                bool connected = false;
+
+                while (!connected)
                 {
-                    clientSock = new ClientSocket(Address, port, 3000, 3000);
-                    connected = true;
+                    try
+                    {
+                        clientSock = new ClientSocket(Address, port, 3000, 3000);
+                        connected = true;
+                    }
+                    catch (Exception)
+                    {
+                        // Si no se pudo conectar, esperar un tiempo antes de intentar de nuevo
+                        _logger.LogError("No se pudo conectar. Reintentando en 5 segundos...");
+                        await Task.Delay(5000); // Esperar 5 segundos antes de reintentar
+                    }
                 }
-                catch (Exception)
-                {
-                    // Si no se pudo conectar, esperar un tiempo antes de intentar de nuevo
-                    Console.WriteLine("No se pudo conectar. Reintentando en 5 segundos...");
-                    await Task.Delay(5000); // Esperar 5 segundos antes de reintentar
-                }
+
+                _logger.LogInformation("Conexión establecida correctamente");
+
+
+
+                votes.Up("Cancion 2", clientSock);
+
+                // Crear un CancellationTokenSource para poder cancelar el polling si es necesario
+                CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+                // Iniciar el polling en un hilo aparte
+                Task pollingTask = Poll.Request(clientSock, cancellationTokenSource.Token);
+
+                // Esperar hasta que se presione Enter para salir
+                _logger.LogInformation("Presione Enter para cerrar la conexión");
+                Console.ReadLine();
+
+                // Si se presiona Enter, cancelar el polling
+                cancellationTokenSource.Cancel();
+
+                // Esperar a que el polling termine
+                await pollingTask;
+
             }
-
-            Console.WriteLine("Conexión establecida correctamente");
-
-            string data = "Hello World";
-            string data0 = "up.vote";
-            string data1 = "GetPlaylistUpdates";
-
-            // Crear un CancellationTokenSource para poder cancelar el polling si es necesario
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            // Iniciar el polling en un hilo aparte
-            Task pollingTask = Poll.Request(clientSock, cancellationTokenSource.Token);
-
-            // Esperar hasta que se presione Enter para salir
-            Console.WriteLine("Press Enter to close the connection");
-            Console.ReadLine();
-
-            // Si se presiona Enter, cancelar el polling
-            cancellationTokenSource.Cancel();
-
-            // Esperar a que el polling termine
-            await pollingTask;
-
-            Console.WriteLine("Press Enter to close the connection");
-            Console.ReadLine();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocurrió un error no controlado: {ErrorMessage}", ex.Message);
+            }
         }
     }
-}
 }

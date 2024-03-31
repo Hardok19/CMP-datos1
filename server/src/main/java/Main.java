@@ -92,6 +92,10 @@ public class Main {
     public static String hola(){
         return playlist.getSongNames();
         }
+    public static void sendvote(String vote){
+        playlist.vote(vote);
+        System.out.println("los likes son" + playlist.getNode(1).data.getLikes());
+    }
 
 
 }
