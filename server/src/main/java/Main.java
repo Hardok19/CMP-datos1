@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
 public class Main {
 
     // Crear una lista circular doblemente enlazada
@@ -7,14 +9,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        
-
         // Crear y agregar 5 canciones a la lista
-        playlist.addSong(new Song("Canción 1"));
-        playlist.addSong(new Song("Canción 2"));
-        playlist.addSong(new Song("Canción 3"));
-        playlist.addSong(new Song("Canción 4"));
-        playlist.addSong(new Song("Canción 5"));
+        playlist.addSong(new Song("Canción 1", "Artist 1", "1"));
+        playlist.addSong(new Song("Canción 2", "Artist 2", "2"));
+        playlist.addSong(new Song("Canción 3", "Artist 3", "3"));
+        playlist.addSong(new Song("Canción 4", "Artist 4", "4"));
+        playlist.addSong(new Song("Canción 5", "Artist 5", "5"));
 
         // Imprimir la lista de canciones antes de agregar likes
         System.out.println("Lista de canciones antes de agregar likes:");
@@ -34,71 +34,34 @@ public class Main {
         System.out.println("Lista de canciones después de agregar likes:");
         playlist.printSongs();
 
-        System.out.println(info());
-        String hello = hola();
-        System.out.println(hello);
-        CustomServer.main(args);
-        showMenu();
+
+        CustomServer.main(args, playlist);
 
     }
 
 
-    public static void showMenu() {
-        System.out.println("Por favor, selecciona una opción:");
-        System.out.println("1. Agregar canción");
-        System.out.println("2. Quitar canción");
-        System.out.println("3. Salir");
-
-        int opcion = scanner.nextInt();
-
-        switch (opcion) {
-            case 1:
-                // Agregar una canción
-                System.out.print("Ingrese el nombre de la canción a agregar: ");
-                scanner.nextLine(); // Consumir el salto de línea pendiente
-                String nombreCancion = scanner.nextLine();
-                playlist.addSong(new Song(nombreCancion));
-                System.out.println("Canción agregada exitosamente.");
-                break;
-            case 2:
-                // Quitar una canción
-                System.out.print("Ingrese el índice de la canción a quitar (empezando desde 1): ");
-                int indiceCancion = scanner.nextInt();
-                if (indiceCancion >= 1 && indiceCancion <= playlist.size) {
-                    playlist.getNode(indiceCancion - 1).prev.next = playlist.getNode(indiceCancion - 1).next;
-                    playlist.getNode(indiceCancion - 1).next.prev = playlist.getNode(indiceCancion - 1).prev;
-                    playlist.getNode(indiceCancion - 1).next = null;
-                    playlist.getNode(indiceCancion - 1).prev = null;
-                    System.out.println("Canción eliminada exitosamente.");
-                } else {
-                    System.out.println("Índice inválido. Inténtelo de nuevo.");
-                }
-                break;
-            case 3:
-                // Salir del programa
-                System.out.println("¡Hasta luego!");
-                scanner.close();
-                System.exit(0);
-            default:
-                System.out.println("Opción inválida. Por favor, seleccione una opción válida.");
-        }
-    }
-    public static String info(){ 
-        return playlist.getNode(0).data.getSongName();
-    }
-
-
-
-    public static String hola(){
-        return playlist.getSongNames();
-        }
     public static void sendvote(String vote){
-        playlist.vote(vote);
-        System.out.println("los likes son" + playlist.getNode(1).data.getLikes());
+        // Llamar al método para extraer los valores
+        String command = extractValue(vote, "command");
+        String id = extractValue(vote, "id");
+        playlist.vote(command, id);
+
     }
 
+
+    // Método para extraer el valor de una clave específica del JSON
+    public static String extractValue(String jsonString, String key) {
+        JsonParser parser = new JsonParser();
+        JsonObject jsonObject = parser.parse(jsonString).getAsJsonObject();
+        return jsonObject.get(key).getAsString();
+    }
+    public static String hola() {
+        mensajero mens = new mensajero();
+        return mens.holas(playlist);
+    }
 
 }
+
 
 
 

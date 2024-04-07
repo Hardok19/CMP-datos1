@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class CustomServer {
-    public static void main(String[] args) {
+    public static void main(String[] args, ListDoubleO playlist) {
         final int PORT = 1235;
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
             System.out.println("Server listening on port " + PORT);
@@ -18,7 +18,7 @@ public class CustomServer {
                 // Crea un nuevo hilo para manejar la conexión con el cliente
                 Thread thread = new Thread(new ClientHandler(clientSocket));
                 thread.start();
-                //Main.showMenu();
+
             }
         }
         catch (IOException e) {
@@ -42,10 +42,9 @@ public class CustomServer {
                         System.out.println("Received from client: " + inputLine);
                         if (inputLine.equals("GetPlaylistUpdates")) {
                             writer.println(Main.hola());
-                            System.out.println("Received from client1234: " + inputLine);
+
                         }
-                        if (inputLine.startsWith("up.vote")) {
-                            System.out.println("Received from client: " + inputLine);
+                        if (inputLine.startsWith("{")) {
                             Main.sendvote(inputLine);
                             writer.println("Received: " + inputLine); // Envía una respuesta al cliente
 

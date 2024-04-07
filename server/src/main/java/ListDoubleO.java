@@ -1,6 +1,10 @@
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+
 
 public class ListDoubleO {
     private Node tail; // Puntero al último nodo en la lista
@@ -62,40 +66,58 @@ public class ListDoubleO {
         return current;
     }
 
+    // Método para obtener los nombres de las canciones junto con sus artistas e ids en formato JSON
     public String getSongNames() {
         Gson gson = new Gson();
-        List<String> songNames = new ArrayList<>();
+        List<Map<String, String>> songs = new ArrayList<>();
+
         if (tail == null) {
-            return gson.toJson(songNames); // Retorna un JSON representando una lista vacía si la lista está vacía
+            return gson.toJson(songs); // Retorna un JSON representando una lista vacía si la lista está vacía
         }
 
         Node current = tail.next;
         do {
-            songNames.add(current.data.getSongName());
-            current = current.next;
-        }
-        while (current != tail.next);
+            Map<String, String> songMap = new HashMap<>();
+            songMap.put("id", current.data.getid());
+            songMap.put("songName", current.data.getSongName());
+            songMap.put("artist", current.data.getArtist());
+            songMap.put("likes", Integer.toString(current.data.getLikes()));
+            songMap.put("dislikes", Integer.toString(current.data.getDislikes()));
 
-        return gson.toJson(songNames);
+            songs.add(songMap);
+            current = current.next;
+        } while (current != tail.next);
+
+        return gson.toJson(songs);
     }
-    public void vote(String voto) {
+    public void vote(String command, String id) {
         int i = 0;
         if (tail == null) {
             return;
         }
         Node current = tail.next;
-        while (i < size){
-            if (voto.endsWith(tail.data.toString())){
-                if (voto.startsWith("up")){
+
+        while (i <= size){
+            if(id.equals(current.data.getSongName())){
+                if (command.startsWith("up")){
                     current.data.like(1);
+                    System.out.println("los likes son de " + id + " son "+ current.data.getLikes());
+                    break;
                 }
+                if (command.startsWith("down")){
+                    current.data.dislike(1);
+                    System.out.println("los dislikes de " + id + " son "+ current.data.getDislikes());
+                    break;
+                }
+
+
             }
             else{
-                current = current.next;
                 i += 1;
+                current = current.next;
             }
-
         }
+
     }
 
 }
