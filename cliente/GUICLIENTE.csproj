@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>GUI_CLIENTE</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <Compile Include="Form1.cs"/>
+    <Compile Include="Form1.Designer.cs"/>
+    <Compile Include="Client.cs" />
+    <Compile Include="Poll.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="IniFile.cs" />
+    <Compile Include="Jsonconverter.cs" />
+    <Compile Include="Vote.cs" />
+    <Compile Include="loggins.cs" />
+    <Compile Include="Jsongenerator.cs" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
