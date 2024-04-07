@@ -1,14 +1,7 @@
 using System.Text;
 using System.Net.Sockets;
-using IniA;
-using Newtonsoft.Json;
-using votes;
 using loggings;
 using Microsoft.Extensions.Logging;
-using GUI_CLIENTE;
-using Json;
-using Newtonsoft.Json.Linq;
-
 
 
 namespace Sockets{
@@ -37,17 +30,16 @@ namespace Sockets{
                 byte[] buf = Encoding.UTF8.GetBytes(data + "\n");
 
 
-                //_logger.LogInformation("Enviando data '{0}' al server", data);
+                _logger.LogInformation("Enviando data '{0}' al server", data);
                 
                 stream.Write(buf, 0, buf.Length);
 
-                //_logger.LogInformation("Data enviada correctamente.");
+                _logger.LogInformation("Data enviada correctamente.");
 
                 buf = new byte[800];
                 int bytesRead = stream.Read(buf, 0, 800);
                 string response = Encoding.UTF8.GetString(buf, 0, bytesRead).Trim();
 
-                //_logger.LogInformation("Recibida respuesta del server : '{0}'", response);
                 return response;
             
             }
@@ -55,21 +47,6 @@ namespace Sockets{
                 _logger.LogError("Error de E/S: " + ex.Message);
                 return "";
             }               
-        }
-
-         public void AddQueueToColumns(Queue<Song> queue, ListView listViewSongs){
-            // Limpiar la lista de vista antes de agregar nuevos elementos
-            listViewSongs.Items.Clear();
-
-            // Recorrer la cola y agregar cada elemento a la lista de vista
-            foreach (var song in queue)
-            {
-                var item = new ListViewItem(song.SongName);
-                item.SubItems.Add(song.Artist);
-                item.SubItems.Add(song.Likes.ToString());
-                item.SubItems.Add(song.Dislikes.ToString());
-                listViewSongs.Items.Add(item);
-            }
         }
 
     }

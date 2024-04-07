@@ -1,19 +1,15 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microsoft.Extensions.Logging.Debug;
 
 namespace loggings{
-    public static class Logger
-    {
-        private static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole(); // Puedes cambiar esto por otro proveedor de logging según tus necesidades
-        });
+    public static class Logger{
+        // Instancia de ILoggerFactory utilizando el método Create de LoggerFactory.
+        public static readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         public static ILogger<T> CreateLogger<T>()
         {
             return _loggerFactory.CreateLogger<T>();
         }
     }
+
 }
 

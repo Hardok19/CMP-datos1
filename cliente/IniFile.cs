@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using loggings;
@@ -7,17 +5,19 @@ using Microsoft.Extensions.Logging;
 
 namespace IniA
 {
-    class IniFile
-    {
-        string iniFilePath;
-        string exeName = AppDomain.CurrentDomain.FriendlyName;
-        private static readonly ILogger<IniFile> _logger = Logger.CreateLogger<IniFile>();
+    class IniFile{
+        // Declaración de variables
+        string iniFilePath; // Ruta del archivo .ini
+        string exeName = AppDomain.CurrentDomain.FriendlyName; // Nombre del ejecutable
+        private static readonly ILogger<IniFile> _logger = Logger.CreateLogger<IniFile>(); // Instancia de logger
 
+        // Declaración de funciones externas para manipulación de archivos .ini (BIBLIOTECA INTERNA DE WINDOWS)
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         private static extern uint GetPrivateProfileString(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnedString, uint nSize, string lpFileName);
 
         [DllImport("kernel32", CharSet = CharSet.Unicode)]
         private static extern uint WritePrivateProfileString(string lpAppName, string lpKeyName, string lpString, string lpFileName);
+
 
         public IniFile(string iniPath = null)
         {
@@ -38,7 +38,7 @@ namespace IniA
         {
             var retVal = new StringBuilder(255);
             GetPrivateProfileString(section ?? exeName, key, "", retVal, 255, iniFilePath);
-            if (!string.IsNullOrEmpty(retVal.ToString())){
+            if (!string.IsNullOrEmpty(retVal.ToString())){ // ! invierte el valor de verdad  string.IsNullOrEmpty verifica si retval es "" o null
                 return retVal.ToString();
 
             }
@@ -52,7 +52,7 @@ namespace IniA
         public void Write(string key, string value, string section = null){
         
             try{
-                if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(key) || string.IsNullOrEmpty(value)) // string.IsNullOrEmpty verifica si retval es "" o null
                 {
                     _logger.LogError("Error: La clave o el valor proporcionado están vacíos.");
                     return;
@@ -66,38 +66,5 @@ namespace IniA
         }
 
 
-        public void DeleteKey(string key, string section = null){
-            try{
-                // Se intenta eliminar la clave pasando el valor como nulo
-                Write(key, null, section ?? exeName);
-            }
-            catch (Exception ex){
-                _logger.LogError($"Error al intentar eliminar la clave '{key}' en la sección '{section ?? exeName}': {ex.Message}");
-            }
-        }
-
-
-        public void DeleteSection(string section = null){
-            try{
-                // Se intenta eliminar la sección pasando la clave y el valor como nulos
-                Write(null, null, section ?? exeName);
-            }
-            catch (Exception ex){
-                _logger.LogError($"Error al intentar eliminar la sección '{section ?? exeName}': {ex.Message}");
-            }
-        }
-
-
-        public bool KeyExists(string key, string section = null){
-            try{
-                string value = Read(key, section);
-                return !string.IsNullOrEmpty(value);
-            }
-            catch (Exception ex){
-                _logger.LogError($"Error al verificar la existencia de la clave '{key}' en la sección '{section ?? exeName}': {ex.Message}");
-                // En caso de error, se asume que la clave no existe
-                return false;
-            }
-        }
     }
 }

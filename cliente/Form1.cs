@@ -1,12 +1,8 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using Microsoft.Extensions.Logging;
 using loggings;
 using IniA;
 using Sockets;
 using votes;
-using System.CodeDom;
 using Json;
 
 
@@ -25,9 +21,6 @@ namespace GUI_CLIENTE
         private static readonly ILogger<Form1> _logger = Logger.CreateLogger<Form1>();
         private string estado = "Desconectado";
         private string cancionValue = "";
-        private string artistaValue = "";
-        private int upVotesValue = 0; 
-        private int downVotesValue = 0; 
 
 
         public Form1()
@@ -80,11 +73,8 @@ namespace GUI_CLIENTE
             listViewSongs.Columns.Add("Down-votes", -2, HorizontalAlignment.Left);
             
 
-            // Declarar variables para cada columna
-            string cancionValue = "";
-            string artistaValue = "";
-            int upVotesValue = 0; 
-            int downVotesValue = 0; 
+            // Declarar variables para la columna
+            string cancionValue = ""; 
 
             // Suscribir al evento SelectedIndexChanged
             listViewSongs.SelectedIndexChanged += (sender, e) =>{
@@ -100,18 +90,11 @@ namespace GUI_CLIENTE
 
                     // Verificar si hay suficientes subelementos en la fila seleccionada
                     if (listViewSongs.Items[selectedIndex].SubItems.Count >= 4){
-                        // Obtener los valores de cada columna en la fila seleccionada
+                        // Obtener los valores de la columna en la fila seleccionada
                         string cancionValue = listViewSongs.Items[selectedIndex].SubItems[0].Text;
-                        string artistaValue = listViewSongs.Items[selectedIndex].SubItems[1].Text;
-                        int upVotesValue = int.Parse(listViewSongs.Items[selectedIndex].SubItems[2].Text);
-                        int downVotesValue = int.Parse(listViewSongs.Items[selectedIndex].SubItems[3].Text);
 
 
                         this.cancionValue = cancionValue;
-                        this.artistaValue = artistaValue;
-                        this.upVotesValue = upVotesValue;
-                        this.downVotesValue = downVotesValue;
-
                     }
                 };
             };
@@ -156,23 +139,17 @@ namespace GUI_CLIENTE
         private void ButtonUpVote_Click(object sender, EventArgs e)
         {
             string cancionvalue;
-            this.upVotesValue += 1;
-
-
             cancionvalue = this.cancionValue;
             Vote vote = new Vote();
-            vote.Up(cancionvalue, clientSock, listViewSongs);
+            vote.Up(cancionvalue, clientSock);
         }
 
         private void ButtonDownVote_Click(object sender, EventArgs e)
         {
             string cancionvalue;
-            this.downVotesValue += 1;
-
-
             cancionvalue = this.cancionValue;
             Vote vote = new Vote();
-            vote.Down(cancionvalue, clientSock, listViewSongs);
+            vote.Down(cancionvalue, clientSock);
         }
 
         private void ApplyStyles()
@@ -201,13 +178,10 @@ namespace GUI_CLIENTE
                 string Address;
                 int port;
                 var config = new IniFile("config.ini"); //Variable de ruta archivo configuracion
-                config.Write("Address", "localhost");
-                config.Write("Port", "1235");
+                //config.Write("Address", "localhost");
+                //config.Write("Port", "1235");
                 Address = config.Read("Address");
                 port = Convert.ToInt16(config.Read("Port"));
-
-                
-
                 bool connected = false;
 
                 while (!connected){
@@ -230,8 +204,6 @@ namespace GUI_CLIENTE
                 _logger.LogInformation("Conexión establecida correctamente");
 
                 Queue<Song> savequeue = new Queue<Song>();
-
-
 
                 // Crear un CancellationTokenSource para poder cancelar el polling si es necesario
                 CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

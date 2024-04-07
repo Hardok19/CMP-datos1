@@ -1,18 +1,17 @@
 using loggings;
 using Microsoft.Extensions.Logging;
 using IniA;
-using GUI_CLIENTE;
 using Json;
-using System.CodeDom;
-using System.DirectoryServices;
+
 
 namespace Sockets{
 public class Poll{
         private static readonly ILogger<Poll> _logger = Logger.CreateLogger<Poll>();
+
+
         public static async Task Request(ClientSocket clientSock, CancellationToken cancellationToken, ListView listViewSongs, Queue<Song> savequeue, Label labelArtist, Label labelCurrentSong){
-            int delay;
             var config = new IniFile("config.ini"); //Variable de ruta archivo configuracion
-            delay = Convert.ToInt32(config.Read("Delay"));
+            int delay = Convert.ToInt32(config.Read("Delay"));
             
             try
             {
@@ -88,7 +87,6 @@ public class Poll{
                 result += sng.Id.ToString();
                 result += sng.Likes.ToString();
                 result += sng.Dislikes.ToString();
-
 
             }
             return result;

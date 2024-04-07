@@ -1,21 +1,13 @@
 using Sockets;
 using loggings;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using GUI_CLIENTE;
 using Json;
 
 namespace votes{
     public class Vote{
-        private readonly ILogger<Vote> _logger;
+        private readonly ILogger<Vote> _logger = Logger.CreateLogger<Vote>();
 
-        public Vote()
-        {
-            _logger = Logger.CreateLogger<Vote>();
-        }
-
-        public void Down(string song, ClientSocket clientSock, ListView listViewSongs)
-        {
+        public void Down(string song, ClientSocket clientSock){
             JSONGenerator json = new JSONGenerator();
             Dictionary<string, object> data = new Dictionary<string, object>{
                 {"command", "down.vote"},
@@ -25,11 +17,10 @@ namespace votes{
             string voto = json.GenerateJSON(data);
             
             clientSock.ProcessData(voto);
-            _logger.LogInformation("Voting down for song: {song}", song);
+            _logger.LogInformation($"Voting down for song: {song}");
         }
 
-        public void Up(string song, ClientSocket clientSock, ListView listViewSongs)
-        {
+        public void Up(string song, ClientSocket clientSock){
             JSONGenerator json = new JSONGenerator();
             Dictionary<string, object> data = new Dictionary<string, object>{
                 {"command", "up.vote"},
@@ -40,7 +31,7 @@ namespace votes{
 
             clientSock.ProcessData(voto);
             
-            _logger.LogInformation("Voting up for song: {song}", song);
+            _logger.LogInformation($"Voting up for song: {song}");
             
         }
     }
