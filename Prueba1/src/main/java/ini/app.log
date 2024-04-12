@@ -1,0 +1,14 @@
+2024-04-09 10:04:42 [main] ERROR ini.LectorINI - Error al leer el archivo .ini: src\main\java\ini\configuracion.ini (El sistema no puede encontrar el archivo especificado)
+java.io.FileNotFoundException: src\main\java\ini\configuracion.ini (El sistema no puede encontrar el archivo especificado)
+	at java.io.FileInputStream.open0(Native Method) ~[?:?]
+	at java.io.FileInputStream.open(FileInputStream.java:216) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:157) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:111) ~[?:?]
+	at ini.LectorINI.main(LectorINI.java:14) [classes/:?]
+2024-04-09 10:05:35 [main] ERROR ini.LectorINI - Error al leer el archivo .ini: src\main\java\ini\configuracion.ini (El sistema no puede encontrar el archivo especificado)
+java.io.FileNotFoundException: src\main\java\ini\configuracion.ini (El sistema no puede encontrar el archivo especificado)
+	at java.io.FileInputStream.open0(Native Method) ~[?:?]
+	at java.io.FileInputStream.open(FileInputStream.java:216) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:157) ~[?:?]
+	at java.io.FileInputStream.<init>(FileInputStream.java:111) ~[?:?]
+	at ini.LectorINI.main(LectorINI.java:14) [classes/:?]
