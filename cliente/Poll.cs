@@ -18,8 +18,14 @@ public class Poll{
                 savequeue = null;
                 while (!cancellationToken.IsCancellationRequested)
                 {
+                    JSONGenerator json = new JSONGenerator();
+                    Dictionary<string, object> datamsg = new Dictionary<string, object>{
+                        {"command", "GetPlaylistUpdates"}
+                        
+                    };
+                    string msj = json.GenerateJSON(datamsg);
                     // Enviar la solicitud al servidor usando el método ProcessData
-                    string response = clientSock.ProcessData("GetPlaylistUpdates");
+                    string response = clientSock.ProcessData(msj);
                     JsonToQueue converter = new JsonToQueue();
                     Queue<Song> queue = converter.ToQueue(response);
 

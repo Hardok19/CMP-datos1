@@ -36,8 +36,8 @@ namespace Sockets{
 
                 _logger.LogInformation("Data enviada correctamente.");
 
-                buf = new byte[800];
-                int bytesRead = stream.Read(buf, 0, 800);
+                buf = new byte[1600];
+                int bytesRead = stream.Read(buf, 0, 1600);
                 string response = Encoding.UTF8.GetString(buf, 0, bytesRead).Trim();
 
                 return response;
