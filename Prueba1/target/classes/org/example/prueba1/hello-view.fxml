@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.StackPane?>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="890.0" prefWidth="1315.0" styleClass="primary_color" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.prueba1.Controller">
+    <left>
+        <VBox fx:id="vBox1" prefHeight="790.0" prefWidth="290.0" spacing="20.0" styleClass="secondary-color" BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="55.0" prefWidth="235.0" spacing="10.0">
+                    <children>
+                        <HBox fx:id="hBox1" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" spacing="20.0" styleClass="selected" >
+                            <children>
+                                <Label prefHeight="21.0" prefWidth="101.0" text="Servidor" textFill="#fff9f8">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <Button fx:id="communityPlaylistButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Community Playlist" textFill="#a1a1a1">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="1080.0" spacing="20.0">
+                    <children>
+                        <HBox alignment="CENTER_LEFT">
+                            <children>
+                                <Button mnemonicParsing="false" style="-fx-background-color: transparent;" />
+                                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" />
+                            </children>
+                        </HBox>
+                        <HBox fx:id="hBox3" alignment="CENTER" maxHeight="-Infinity" prefHeight="35.0" prefWidth="215.0" styleClass="search-container" >
+                            <children>
+                                <ImageView fx:id="searchImageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"/>
+                                <TextField prefHeight="31.0" prefWidth="245.0" promptText="Search" style="-fx-background-color: transparent;" />
+                            </children>
+                        </HBox>
+                        <Pane prefHeight="56.0" prefWidth="519.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label layoutX="223.0" layoutY="15.0" prefHeight="27.0" prefWidth="155.0" text="Username" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <ImageView fx:id="userImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                            </children></Pane>
+                        <HBox alignment="CENTER" prefHeight="56.0" prefWidth="256.0" spacing="10.0" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #282828;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="364.0" spacing="20.0">
+                    <children>
+                        <VBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="201.0">
+                            <children>
+                                <Label prefHeight="27.0" prefWidth="212.0" text="Nombre de la cancion" textFill="WHITE">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label prefHeight="27.0" prefWidth="212.0" text="Artista" textFill="WHITE">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <ImageView fx:id="loveImageView" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true"/>
+                    </children>
+                </HBox>
+                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="740.0" spacing="10.0">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="11.0" prefWidth="740.0" spacing="30.0">
+                            <children>
+                                <ImageView fx:id="shuffleImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"/>
+                                <ImageView fx:id="skipToStartImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"/>
+                                <StackPane>
+                                    <!-- ImageView original -->
+                                    <ImageView fx:id="playImageView" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true"/>
+                                    <!-- Botón invisible encima del ImageView -->
+                                    <Button fx:id="invisibleButton" style="-fx-opacity: 0; -fx-background-color: transparent;" StackPane.alignment="CENTER"/>
+                                </StackPane>
+                                <ImageView fx:id="endImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"/>
+                                <ImageView fx:id="repeatImageView" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true"/>
+                            </children>
+                        </HBox>
+                        <HBox spacing="10.0">
+                            <children>
+                                <Label text="00:00" textFill="WHITE" />
+                                <Slider HBox.hgrow="ALWAYS" />
+                                <Label text="02:37" textFill="WHITE" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
